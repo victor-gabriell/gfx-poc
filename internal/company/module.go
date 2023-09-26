@@ -7,8 +7,8 @@ import (
 
 var Module = fx.Module("company",
 	fx.Provide(
-		NewHandler,
 		repository.NewRepository,
+		fx.Annotate(NewHandler, fx.From(new(*repository.CompanyRepository))),
 	),
 	fx.Invoke(SetRoutes),
 )

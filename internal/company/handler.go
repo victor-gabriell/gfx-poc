@@ -11,10 +11,10 @@ import (
 )
 
 type Handler struct {
-	companyRepo *repository.Repository
+	companyRepo repository.Repository
 }
 
-func NewHandler(companyRepo *repository.Repository) *Handler {
+func NewHandler(companyRepo repository.Repository) *Handler {
 	return &Handler{
 		companyRepo: companyRepo,
 	}
@@ -28,7 +28,7 @@ func (h *Handler) CreateCompany(g *gin.Context) {
 		return
 	}
 
-	createCompany, err := h.companyRepo.CreateCompany(company)
+	createCompany, err := h.companyRepo.CreateCompany(g, company)
 	if err != nil {
 		g.AbortWithStatusJSON(http.StatusBadRequest, err.Error())
 		return
@@ -46,7 +46,7 @@ func (h *Handler) GetCompany(g *gin.Context) {
 		return
 	}
 
-	company, err := h.companyRepo.GetCompanyById(parse)
+	company, err := h.companyRepo.GetCompanyById(g, parse)
 	if err != nil {
 		g.AbortWithStatusJSON(http.StatusBadRequest, err.Error())
 		return
